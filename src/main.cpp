@@ -116,7 +116,7 @@ int main() {
 
           auto coeffs = polyfit(car_x, car_y, 3);
           double cte = coeffs[0];
-          double epsi = psi - atan(coeffs[1]);
+          double epsi = -atan(coeffs[1]);
 
           Eigen::VectorXd state(6);
           state << px, py, psi, v, cte, epsi;
@@ -142,13 +142,11 @@ int main() {
             throttle_value = -1.0;
           }
 
-          steer_value = steer_value * (-1.0);
-
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
-          msgJson["steering_angle"] = steer_value;
+          msgJson["steering_angle"] = -steer_value;
           msgJson["throttle"] = throttle_value;
 
           //Display the MPC predicted trajectory 
