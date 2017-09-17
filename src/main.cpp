@@ -91,6 +91,8 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+          double delta = j[1]["steering_angle"];
+          double acceleration = j[1]["throttle"];
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -101,6 +103,12 @@ int main() {
 
           double steer_value;
           double throttle_value;
+
+          double latency = 0.1;
+          px = px + v*cos(psi)*latency;
+          py = py + v*sin(psi)*latency;
+          psi = psi + v*delta/2.67*latency;
+          v = v + acceleration*latency;
 
           // Convert to Car's perspective
           Eigen::VectorXd car_x(ptsx.size());
@@ -171,7 +179,7 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          for (int i = 1; i <= 20; ++i) {
+          for (int i = 1; i <= 50; ++i) {
             next_x_vals.push_back(i);
             next_y_vals.push_back(polyeval(coeffs, i));
           }
