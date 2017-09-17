@@ -115,7 +115,7 @@ int main() {
 
 
           auto coeffs = polyfit(car_x, car_y, 3);
-          double cte = polyeval(coeffs, px) - py;
+          double cte = coeffs[0];
           double epsi = psi - atan(coeffs[1]);
 
           Eigen::VectorXd state(6);
@@ -173,9 +173,9 @@ int main() {
           vector<double> next_x_vals;
           vector<double> next_y_vals;
 
-          for (int i = 0; i < 20; ++i) {
-            next_x_vals.push_back(i+1.0);
-            next_y_vals.push_back(polyeval(coeffs, i+1.0));
+          for (int i = 1; i <= 20; ++i) {
+            next_x_vals.push_back(i);
+            next_y_vals.push_back(polyeval(coeffs, i));
           }
 
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
